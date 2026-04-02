@@ -12,10 +12,29 @@
   min-height: 260px;
 }
 
+.swiper-main .swiper-slide {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fond flouté — même image zoomée et assombrie */
+.slide-bg {
+  position: absolute;
+  inset: -30px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(24px) brightness(0.45);
+  transform: scale(1.08); /* évite les artefacts de bord du blur */
+  pointer-events: none;
+}
+
+/* Image principale au premier plan */
 .swiper-main .swiper-slide img {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
   cursor: pointer;
 }

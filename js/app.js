@@ -16,14 +16,24 @@ const CONFIG = {
      Format : tableau de strings URL (JPEG, WebP, etc.)
      Pour les photos locales : './img/photo-01.jpg'     */
   photos: [
-    'https://picsum.photos/seed/immo01/1200/800',
-    'https://picsum.photos/seed/immo02/1200/800',
-    'https://picsum.photos/seed/immo03/1200/800',
-    'https://picsum.photos/seed/immo04/1200/800',
-    'https://picsum.photos/seed/immo05/1200/800',
-    'https://picsum.photos/seed/immo06/1200/800',
-    'https://picsum.photos/seed/immo07/1200/800',
-    'https://picsum.photos/seed/immo08/1200/800',
+    './img/1.jpg',
+    './img/2.jpg',
+    './img/3.jpg',
+    './img/4.jpg',
+    './img/5.jpg',
+    './img/6.jpg',
+    './img/7.jpg',
+    './img/8.jpg',
+    './img/9.jpg',
+    './img/10.jpg',
+    './img/11.jpg',
+    './img/12.jpg',
+    './img/13.jpg',
+    './img/14.jpg',
+    './img/15.jpg',
+    './img/16.jpg',
+    './img/17.jpg',
+    './img/18.jpg',
   ],
 
   /* --- Titre de la page --- */
@@ -130,10 +140,13 @@ function buildSlides() {
   CONFIG.photos.forEach((url, i) => {
     const alt = `Photo ${i + 1} — ${CONFIG.mapCity}`;
 
-    /* Main slide */
+    /* Main slide — fond flouté + image principale contain */
     const mainSlide = document.createElement('div');
     mainSlide.className = 'swiper-slide';
-    mainSlide.innerHTML = `<img src="${url}" alt="${alt}" loading="${i === 0 ? 'eager' : 'lazy'}">`;
+    mainSlide.innerHTML = `
+      <div class="slide-bg" style="background-image:url('${url}')"></div>
+      <img src="${url}" alt="${alt}" loading="${i === 0 ? 'eager' : 'lazy'}">
+    `;
     mainWrapper.appendChild(mainSlide);
 
     /* Thumb slide */
