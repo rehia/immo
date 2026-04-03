@@ -55,48 +55,54 @@ const CONFIG = {
   /* --- Description longue --- */
   description: `
     <p class="mb-4">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maison individuelle de plain-pied
-      implantée sur un terrain de 341&nbsp;m², dans le quartier calme et recherché de Bel Air,
-      à Jacou. Construite en 2005, elle offre une surface habitable de 89,5&nbsp;m² parfaitement
-      agencée pour une famille.
+      Sur les hauteurs de Jacou, dans le quartier recherché de Bel Air, cette maison
+      traversante a de quoi séduire&nbsp;: une vue dégagée sur le Pic Saint Loup depuis
+      la terrasse, le jardin et la piscine. Double orientation, lumière généreuse
+      et un cadre de vie qui donne envie de rester.
     </p>
     <p class="mb-4">
-      Le séjour lumineux de 35&nbsp;m² s'ouvre sur une terrasse exposée sud. La cuisine équipée
-      et ouverte sur le séjour favorise la convivialité. La maison comprend trois chambres
-      confortables, une salle de bain avec baignoire et douche, ainsi qu'un WC indépendant.
+      Au rez-de-chaussée, le salon-séjour traversant de 24&nbsp;m², baigné de lumière,
+      communique avec une cuisine semi-ouverte de 12&nbsp;m², entièrement refaite en 2022.
+      Depuis la cuisine, on accède directement à la terrasse et au jardin côté nord.
+      WC séparé au rez-de-chaussée.
     </p>
     <p class="mb-4">
-      Côté extérieur : jardin arboré et clôturé, terrasse de 25&nbsp;m², garage double et
-      deux places de parking supplémentaires. Pompe à chaleur air/eau récente (2021).
-      Double vitrage partout. Réseau de fibre optique disponible.
+      À l'étage, trois chambres de 11 à 12&nbsp;m² — dont deux côté nord avec vue
+      sur le Pic — et une salle d'eau soignée&nbsp;: douche italienne XXL, double vasque,
+      WC indépendant. L'ensemble de la maison a été rénové ces dernières années.
     </p>
     <p>
-      Proximité immédiate des commerces, écoles (primaire à 300&nbsp;m, collège à 900&nbsp;m),
-      transports en commun. Jacou se situe à 8&nbsp;km de Montpellier centre.
-      Accès rapide au tramway (ligne 1), à la A9 et à l'aéroport.
+      Côté extérieurs, la maison se vit des deux côtés. Au nord&nbsp;: terrasse avec
+      pergola et barbecue, jardin paysager et piscine semi-enterrée, face au Pic
+      Saint Loup. Au sud&nbsp;: cour fermée avec préau et 3 places de parking. En
+      contrebas, un garage de 27&nbsp;m² avec accès indépendant. Jacou, commune dynamique
+      aux portes de la garrigue, offre tous les commerces à 3 minutes à pied, le
+      tramway et les écoles à 5 minutes, et le collège à un quart d'heure de marche.
     </p>
   `,
 
   /* --- Atouts --- */
   atouts: [
-    { icon: '🌄', text: 'Terrasse et piscine avec vue imprenable' },
-    { icon: '🅿️',  text: '4 places de parking clôturées' },
-    { icon: '✨', text: 'Rénovation récente' },
+    { icon: '🌄', text: 'Vue dégagée sur le Pic Saint Loup' },
+    { icon: '🏊', text: 'Piscine, terrasse et jardin privatifs' },
+    { icon: '🅿️', text: '4 stationnements + garage 27 m²' },
+    { icon: '✨', text: 'Cuisine neuve (2022) et maison rénovée' },
+    { icon: '🚊', text: 'Tram, commerces et écoles à 5 min à pied' },
   ],
 
   /* --- Caractéristiques --- */
   characteristics: [
-    { icon: '🏠', label: 'Type de bien',               value: 'Maison individuelle' },
+    { icon: '🏠', label: 'Type de bien',               value: 'Maison mitoyenne traversante' },
     { icon: '📐', label: 'Surface habitable',           value: '89,5 m²' },
     { icon: '🌿', label: 'Surface terrain',             value: '341 m²' },
     { icon: '🚪', label: 'Pièces',                      value: '4' },
     { icon: '🛏', label: 'Chambres',                    value: '3' },
     { icon: '🏊', label: 'Piscine',                     value: 'Semi-enterrée' },
     { icon: '🌄', label: 'Vue',                         value: 'Vue imprenable',          highlight: true },
-    { icon: '🧭', label: 'Exposition',                  value: 'Sud' },
+    { icon: '🧭', label: 'Exposition',                  value: 'Double orientation (traversante)' },
     { icon: '🚗', label: 'Garage',                      value: '27 m²' },
     { icon: '🅿️',  label: 'Parking extérieur',         value: '4 places',                highlight: true },
-    { icon: '🚿', label: 'Salle d\'eau',                value: 'Salle d\'eau (douche + WC) + 1 WC séparé' },
+    { icon: '🚿', label: 'Salle d\'eau',                value: 'Douche italienne, double vasque + WC séparé' },
     { icon: '🔥', label: 'Chauffage',                   value: 'Pompe à chaleur air/air + électrique' },
     { icon: '❄️',  label: 'Climatisation',              value: 'Réversible',              highlight: true },
     { icon: '💧', label: 'Eau chaude',                  value: 'Ballon électrique' },
@@ -104,6 +110,7 @@ const CONFIG = {
     { icon: '🏡', label: 'Volets',                      value: 'Électriques, commande centralisée' },
     { icon: '🌳', label: 'Jardin',                      value: 'Oui — clôturé' },
     { icon: '📅', label: 'Année de construction',       value: '1972' },
+    { icon: '🧱', label: 'Isolation',                   value: 'ITE façade nord + toiture (2018)' },
   ],
 
   /* --- DPE (Diagnostic de Performance Énergétique)
@@ -275,7 +282,7 @@ function injectContent() {
   /* Prix */
   const priceHTML = `
     <div class="price-main" aria-label="Prix de vente">${CONFIG.price}</div>
-    <div class="price-sqm">${CONFIG.pricePerSqm} · Honoraires à la charge du vendeur</div>
+    <div class="price-sqm">${CONFIG.pricePerSqm} · Vente directe sans frais d'agence</div>
   `;
   document.getElementById('price-display').innerHTML = priceHTML;
   const sidebarPrice = document.getElementById('sidebar-price');
