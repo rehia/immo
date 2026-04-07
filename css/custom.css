@@ -653,6 +653,13 @@
 
 .rl-text { color: #374151; font-weight: 500; }
 
+.rl-approx-icon {
+  width: 14px;
+  height: 18px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
 /* ---- Utility ---- */
 .price-main {
   font-size: 2rem;

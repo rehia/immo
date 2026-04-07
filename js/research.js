@@ -15,12 +15,15 @@ const map = L.map('research-map', {
   zoom: 13,
   minZoom: 12,
   scrollWheelZoom: true,
+  zoomControl: false,
   maxBounds: [
     [43.58, 3.77],
     [43.76, 4.00],
   ],
   maxBoundsViscosity: 0.85,
 });
+
+L.control.zoom({ position: 'topright' }).addTo(map);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -101,7 +104,11 @@ legend.onAdd = function () {
     <div class="rl-row">
       <span class="rl-dot" style="background:${cfg.color}"></span>
       <span class="rl-text">${cfg.label}</span>
-    </div>`).join('');
+    </div>`).join('') + `
+    <div class="rl-row">
+      <img src="img/marker-approx.svg" class="rl-approx-icon" alt="">
+      <span class="rl-text">Localisation approximative</span>
+    </div>`;
   return div;
 };
 
