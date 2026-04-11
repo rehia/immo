@@ -63,14 +63,14 @@ const PROPERTIES = [
     image: 'https://file.bienici.com/photo/netty-company52586gdp-house-13747_img.netty.immo_productw_company52586gdp_8_VM13747_17737407891_VM13747_6_original.jpg?width=2000&height=2000',
   },
   {
-    address: 'Teyran (34820)',
-    lat: 43.686949,
-    lng: 3.926678,
+    address: 'Saint-Drézéry (34160)',
+    lat: 43.7067,
+    lng: 3.9567,
     urls: [
       { url: 'https://www.bienici.com/annonce/vente/teyran/maison/6pieces/ag440414-521039147' },
       { url: 'https://www.leboncoin.fr/ad/ventes_immobilieres/3172136866' },
     ],
-    status: 'to-visit',
+    status: 'abandoned',
     label: '6 pièces 144 m² 545 000€',
     image: 'https://img.leboncoin.fr/api/v1/lbcpb1/images/gh/4c/9a/gh4c9ab4e410310a5cb91934858d6ef123ce7052.jpg?rule=ad-large',
     approximate: true,

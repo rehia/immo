@@ -68,21 +68,24 @@ function buildPopup(p) {
     </div>`;
 }
 
-const approxIcon = L.icon({
-  iconUrl: 'img/marker-approx.svg',
-  shadowUrl: 'img/marker-approx-shadow.svg',
-  iconSize: [30, 40],
-  shadowSize: [40, 20],
-  iconAnchor: [15, 40],
-  shadowAnchor: [12, 20],
-  popupAnchor: [0, -36],
-});
+function makeApproxIcon(status) {
+  const file = status === 'abandoned' ? 'marker-approx-abandoned' : 'marker-approx';
+  return L.icon({
+    iconUrl: `img/${file}.svg`,
+    shadowUrl: 'img/marker-approx-shadow.svg',
+    iconSize: [30, 40],
+    shadowSize: [40, 20],
+    iconAnchor: [15, 40],
+    shadowAnchor: [12, 20],
+    popupAnchor: [0, -36],
+  });
+}
 
 (PROPERTIES || []).forEach(p => {
   const cfg = STATUS_CONFIG[p.status] || STATUS_CONFIG['to-visit'];
 
   const marker = p.approximate
-    ? L.marker([p.lat, p.lng], { icon: approxIcon })
+    ? L.marker([p.lat, p.lng], { icon: makeApproxIcon(p.status) })
     : L.circleMarker([p.lat, p.lng], {
         radius: 10,
         fillColor: cfg.color,
