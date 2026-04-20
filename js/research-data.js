@@ -76,6 +76,18 @@ const PROPERTIES = [
     approximate: true,
   },
   {
+    address: 'Prades-le-Lez (34730)',
+    lat: 43.694686,
+    lng: 3.870828,
+    urls: [
+      { url: 'https://www.leboncoin.fr/ad/ventes_immobilieres/3176074671' },
+    ],
+    status: 'to-visit',
+    label: '5 pièces 128 m² à terminer - 449 000€',
+    image: 'https://img.leboncoin.fr/api/v1/lbcpb1/images/b0/a2/a1/b0a2a1d953a93107c897b01aa3906db82b80bbd3.jpg?rule=ad-large',
+    approximate: true,
+  },
+  {
     address: '7 Rue Marcel Pagnol, Le Crès (34920)',
     lat: 43.655345,
     lng: 3.937712,
