@@ -19,7 +19,7 @@
    image : URL d'une photo (optionnel)
    ===================================================== */
 
-const SITE_NAMES = {
+export const SITE_NAMES = {
   'leboncoin.fr': 'Le Bon Coin',
   'seloger.com': 'SeLoger',
   'bienici.com': "Bien'ici",
@@ -27,7 +27,7 @@ const SITE_NAMES = {
   'pap.fr': 'PAP',
 };
 
-const PROPERTIES = [
+export const PROPERTIES = [
   {
     address: '415 Chem. de l\'Hirondelle, Castelnau-le-Lez (34170)',
     lat: 43.6466836,

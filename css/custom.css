@@ -605,6 +605,27 @@
   margin-bottom: 8px;
 }
 
+.rp-status-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.rp-status-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 99px;
+  border: 1.5px solid;
+  background: transparent;
+  cursor: pointer;
+  line-height: 1.6;
+  transition: opacity 0.15s;
+}
+
+.rp-status-btn:hover { opacity: 0.75; }
+
 .rp-link {
   display: block;
   font-size: 13px;
@@ -649,6 +670,50 @@
   margin: 0 0 6px;
 }
 
+/* ---- Date picker inline (popup admin, visite planifiée) ---- */
+.rp-date-picker {
+  margin-top: 6px;
+  padding: 8px;
+  background: #fff7ed;
+  border: 1.5px solid #fed7aa;
+  border-radius: 8px;
+}
+
+.rp-date-input {
+  width: 100%;
+  padding: 5px 8px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #1e293b;
+  background: #fff;
+  box-sizing: border-box;
+  margin-bottom: 6px;
+}
+.rp-date-input:focus { outline: none; border-color: #ea580c; }
+
+.rp-date-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.rp-date-cancel,
+.rp-date-confirm {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+}
+
+.rp-date-cancel  { background: #f1f5f9; color: #64748b; }
+.rp-date-cancel:hover { background: #e2e8f0; }
+
+.rp-date-confirm { background: #ea580c; color: #fff; }
+.rp-date-confirm:hover { background: #c2410c; }
+
 /* ---- Légende ---- */
 .research-legend {
   background: rgba(255,255,255,0.92);
@@ -684,6 +749,254 @@
   flex-shrink: 0;
   object-fit: contain;
 }
+
+/* divIcon Leaflet : supprime le fond et la bordure par défaut */
+.approx-marker-icon {
+  background: none !important;
+  border: none !important;
+}
+
+/* =====================================================
+   ADMIN — FAB, mode placement, modale CRUD
+   ===================================================== */
+
+/* ---- Bouton flottant "+" ---- */
+.admin-fab {
+  position: fixed;
+  bottom: 152px; /* au-dessus de la légende Leaflet */
+  right: 12px;
+  z-index: 1000;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #1e3a5f;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.28);
+  transition: background 0.15s, transform 0.15s;
+}
+.admin-fab:hover { background: #2a4f80; }
+.admin-fab.placement-active { background: #dc2626; transform: scale(1.1); }
+
+/* ---- Mode placement (curseur crosshair) ---- */
+#research-map.placement-mode,
+#research-map.placement-mode .leaflet-interactive { cursor: crosshair !important; }
+
+/* ---- Bouton "Modifier" dans le popup ---- */
+.rp-admin-bar {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.rp-edit-btn {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: background 0.12s, color 0.12s;
+}
+.rp-edit-btn:hover { background: #e2e8f0; color: #1e293b; }
+
+/* ---- Modale (overlay + boîte) ---- */
+.prop-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.prop-modal[hidden] { display: none; }
+
+.prop-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+}
+
+.prop-modal-box {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+}
+
+.prop-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+}
+
+.prop-modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin: 0;
+}
+
+.prop-modal-close {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #64748b;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+}
+.prop-modal-close:hover { background: #f1f5f9; color: #1e293b; }
+
+/* ---- Formulaire ---- */
+.prop-form {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pf-group { display: flex; flex-direction: column; gap: 4px; }
+
+.pf-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.pf-req { color: #dc2626; }
+
+.pf-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  background: #f8fafc;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+.pf-input:focus { border-color: #2563eb; background: #fff; }
+
+.pf-select { appearance: auto; }
+
+.pf-row { display: flex; gap: 12px; }
+.pf-row .pf-group { flex: 1; }
+
+.pf-group-checkbox {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 2px;
+}
+
+.pf-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+}
+
+/* URLs dynamiques */
+.pf-url-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.pf-url-row .pf-input { flex: 1; }
+
+.pf-url-remove {
+  background: none;
+  border: 1.5px solid #fca5a5;
+  color: #ef4444;
+  border-radius: 6px;
+  width: 28px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+}
+.pf-url-remove:hover { background: #fef2f2; }
+
+.pf-add-url {
+  font-size: 12px;
+  font-weight: 600;
+  color: #2563eb;
+  background: none;
+  border: 1.5px dashed #bfdbfe;
+  border-radius: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.pf-add-url:hover { background: #eff6ff; }
+
+/* Boutons d'actions */
+.pf-actions {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+  padding-top: 14px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.pf-actions-right {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.pf-btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s;
+}
+
+.pf-btn-save { background: #1e3a5f; color: #fff; }
+.pf-btn-save:hover { background: #2a4f80; }
+.pf-btn-save:disabled { opacity: 0.5; cursor: default; }
+
+.pf-btn-cancel { background: #f1f5f9; color: #64748b; }
+.pf-btn-cancel:hover { background: #e2e8f0; }
+
+.pf-btn-delete { background: none; color: #ef4444; border: 1.5px solid #fca5a5; }
+.pf-btn-delete:hover { background: #fef2f2; }
 
 /* ---- Utility ---- */
 .price-main {

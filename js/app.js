@@ -3,7 +3,13 @@
    =====================================================
    CONTENU À REMPLIR (pour l'agent de contenu) :
    Modifier la section CONFIG ci-dessous.
+   Les données sont chargées depuis Firestore (collection
+   config/listing). Les valeurs ici servent de fallback
+   si Firestore est inaccessible.
    ===================================================== */
+
+import { db } from './firebase-config.js';
+import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 'use strict';
 
@@ -475,7 +481,16 @@ function initContacts() {
 /* =====================================================
    8. INIT — Point d'entrée
    ===================================================== */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  /* Chargement Firestore (fallback sur CONFIG hardcodé si indisponible) */
+  try {
+    const snap = await Promise.race([
+      getDoc(doc(db, 'config', 'listing')),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 5000)),
+    ]);
+    if (snap.exists()) Object.assign(CONFIG, snap.data());
+  } catch (_) { /* CONFIG hardcodé utilisé */ }
+
   buildSlides();
   initSwipers();
   initLightbox();

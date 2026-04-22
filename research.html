@@ -67,7 +67,7 @@
     <!-- Sous-titre / aide -->
     <p class="sp-hint">
       Cliquer sur un bien pour centrer la carte.
-      Éditer <code>js/research-data.js</code> pour ajouter des biens.
+      Gérer les biens via Firebase Console.
     </p>
 
     <!-- Filtres -->
@@ -93,10 +93,89 @@
 
   </aside>
 
+  <!-- Bouton + admin (visible uniquement en mode admin via JS) -->
+  <button id="admin-fab" class="admin-fab" style="display:none" title="Ajouter un bien">
+    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+    </svg>
+  </button>
+
+  <!-- Modale CRUD (admin) -->
+  <div id="prop-modal" class="prop-modal" hidden>
+    <div class="prop-modal-overlay" id="prop-modal-overlay"></div>
+    <div class="prop-modal-box">
+      <div class="prop-modal-header">
+        <h2 class="prop-modal-title" id="prop-modal-title">Ajouter un bien</h2>
+        <button class="prop-modal-close" id="prop-modal-close" aria-label="Fermer">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <form id="prop-form" class="prop-form" novalidate>
+        <div class="pf-group">
+          <label class="pf-label" for="pf-label">Label <span class="pf-req">*</span></label>
+          <input class="pf-input" type="text" id="pf-label" name="label" placeholder="ex: 5p 145m² 650 000€" required>
+        </div>
+        <div class="pf-group">
+          <label class="pf-label" for="pf-address">Adresse <span class="pf-req">*</span></label>
+          <input class="pf-input" type="text" id="pf-address" name="address" placeholder="Rue, Ville (34xxx)" required>
+        </div>
+        <div class="pf-row">
+          <div class="pf-group">
+            <label class="pf-label" for="pf-lat">Latitude <span class="pf-req">*</span></label>
+            <input class="pf-input" type="number" id="pf-lat" name="lat" step="any" required>
+          </div>
+          <div class="pf-group">
+            <label class="pf-label" for="pf-lng">Longitude <span class="pf-req">*</span></label>
+            <input class="pf-input" type="number" id="pf-lng" name="lng" step="any" required>
+          </div>
+        </div>
+        <div class="pf-group">
+          <label class="pf-label">URLs d'annonces</label>
+          <div id="pf-url-list"></div>
+          <button type="button" class="pf-add-url" id="pf-add-url">+ Ajouter une URL</button>
+        </div>
+        <div class="pf-group">
+          <label class="pf-label" for="pf-image">Photo (URL)</label>
+          <input class="pf-input" type="text" id="pf-image" name="image" placeholder="https://…">
+        </div>
+        <div class="pf-row">
+          <div class="pf-group">
+            <label class="pf-label" for="pf-status">Statut</label>
+            <select class="pf-input pf-select" id="pf-status" name="status">
+              <option value="to-discuss">À discuter</option>
+              <option value="to-visit">À visiter</option>
+              <option value="planned">Visite planifiée</option>
+              <option value="visited">Visitée</option>
+              <option value="abandoned">Abandonnée</option>
+            </select>
+          </div>
+          <div class="pf-group pf-group-checkbox">
+            <label class="pf-checkbox-label">
+              <input type="checkbox" id="pf-approx" name="approximate">
+              Localisation approximative
+            </label>
+          </div>
+        </div>
+        <div class="pf-group" id="pf-visit-date-group" style="display:none">
+          <label class="pf-label" for="pf-visit-date">Date de visite</label>
+          <input class="pf-input" type="date" id="pf-visit-date" name="visitDate">
+        </div>
+        <div class="pf-actions">
+          <button type="button" class="pf-btn pf-btn-delete" id="pf-delete" hidden>Supprimer</button>
+          <div class="pf-actions-right">
+            <button type="button" class="pf-btn pf-btn-cancel" id="pf-cancel">Annuler</button>
+            <button type="submit" class="pf-btn pf-btn-save">Enregistrer</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="js/research-data.js"></script>
-  <script src="js/research.js"></script>
+  <script type="module" src="js/research.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<!--
+  seed.html — Outil de peuplement Firestore (usage unique)
+  =========================================================
+
+  ÉTAPES AVANT D'UTILISER CE SCRIPT :
+  1. Dans Firebase Console → Firestore → Règles, passer temporairement à :
+       allow write: true;
+     (remplacer allow write: false)
+  2. Ouvrir cette page via un serveur HTTP (ex: Live Server VS Code)
+     PAS en file:// — les ES modules ne fonctionnent pas en file://
+  3. Cliquer sur "Peupler Firestore"
+  4. Vérifier le résultat dans la console Firebase
+  5. Remettre les règles à : allow write: false;
+-->
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Seed Firestore — immo.rehia.fr</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 20px; }
+    h1 { font-size: 1.4rem; margin-bottom: 8px; }
+    pre { background: #f3f4f6; padding: 16px; border-radius: 8px; font-size: 12px; overflow: auto; }
+    button { background: #1e3a5f; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer; margin-top: 16px; }
+    button:disabled { opacity: 0.5; cursor: default; }
+    #log { margin-top: 20px; }
+    .ok  { color: #16a34a; }
+    .err { color: #dc2626; }
+    .warn { color: #d97706; background: #fef3c7; padding: 12px; border-radius: 6px; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <h1>Peupler Firestore — immo.rehia.fr</h1>
+
+  <div class="warn">
+    ⚠️ <strong>Avant de continuer</strong> : assurez-vous que les règles Firestore
+    autorisent temporairement les écritures (<code>allow write: true</code>).
+    Remettez-les à <code>allow write: false</code> après le seed.
+  </div>
+
+  <p>Ce script va créer :</p>
+  <ul>
+    <li><code>config/listing</code> — données du bien principal</li>
+    <li><code>properties/*</code> — 8 biens de recherche</li>
+  </ul>
+
+  <button id="btn-seed">Peupler Firestore</button>
+  <div id="log"></div>
+
+<script type="module">
+import { db } from '../js/firebase-config.js';
+import { doc, setDoc, collection, addDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { PROPERTIES } from '../js/research-data.js';
+
+/* ----------------------------------------------------------------
+   Données du bien principal (mirror de CONFIG dans app.js)
+   À mettre à jour si CONFIG change.
+   ---------------------------------------------------------------- */
+const LISTING = {
+  pageTitle: 'Maison 4 pièces \u2014 Jacou (34830) \u2014 419\u202f000\u00a0\u20ac',
+  price: '419\u202f000\u00a0\u20ac',
+  pricePerSqm: '4\u202f681\u00a0\u20ac/m\u00b2',
+  phoneEncoded: 'MDYgMjEgMDkgOTAgMTA=',
+  emailEncoded: 'amVyb21lQGF2b3VzdGluLmNvbQ==',
+  ownerName: 'Le propri\u00e9taire',
+  photos: [
+    './img/1.jpg','./img/2.jpg','./img/3.jpg','./img/4.jpg',
+    './img/5.jpg','./img/6.jpg','./img/7.jpg','./img/8.jpg',
+    './img/9.jpg','./img/10.jpg','./img/11.jpg','./img/12.jpg',
+    './img/13.jpg','./img/14.jpg','./img/15.jpg','./img/16.jpg',
+    './img/17.jpg','./img/18.jpg',
+  ],
+  description: `
+    <p class="mb-4">
+      Sur les hauteurs de Jacou, dans le quartier recherch\u00e9 de Bel Air, cette maison
+      traversante a de quoi s\u00e9duire\u00a0: une vue d\u00e9gag\u00e9e sur le Pic Saint Loup depuis
+      la terrasse, le jardin et la piscine. Double orientation et lumi\u00e8re g\u00e9n\u00e9reuse toute la journ\u00e9e : ici, on se sent chez soi.
+    </p>
+    <p class="mb-4">
+      Au rez-de-chauss\u00e9e, un espace s\u00e9jour-salon et cuisine semi-ouverte de 36\u00a0m\u00b2, traversant et baign\u00e9 de lumi\u00e8re. La cuisine a \u00e9t\u00e9 enti\u00e8rement refaite en 2022.
+      Depuis la cuisine, on acc\u00e8de directement \u00e0 la terrasse et au jardin c\u00f4t\u00e9 nord.
+      WC s\u00e9par\u00e9 au rez-de-chauss\u00e9e.
+    </p>
+    <p class="mb-4">
+      \u00c0 l\u2019\u00e9tage, trois chambres de 11 \u00e0 12\u00a0m\u00b2 \u2014 dont deux c\u00f4t\u00e9 nord avec vue
+      sur le Pic \u2014 et une salle d\u2019eau soign\u00e9e\u00a0: douche italienne XL, double vasque, WC. L\u2019ensemble de la maison a \u00e9t\u00e9 r\u00e9nov\u00e9 ces derni\u00e8res ann\u00e9es.
+    </p>
+    <p>
+      C\u00f4t\u00e9 ext\u00e9rieurs, la maison se vit des deux c\u00f4t\u00e9s. Au nord\u00a0: terrasse avec
+      pergola et barbecue, jardin paysager et piscine semi-enterr\u00e9e, face au Pic
+      Saint Loup. Au sud\u00a0: cour ferm\u00e9e avec pr\u00e9au et 3 places de parking. En
+      contrebas, un garage de 27\u00a0m\u00b2 avec acc\u00e8s ind\u00e9pendant compl\u00e8te ce bien. Situ\u00e9e dans Jacou, commune dynamique aux portes de la garrigue, la maison est \u00e0 3 minutes \u00e0 pied des commerces, 5 minutes du tramway et des \u00e9coles, et un quart d\u2019heure du coll\u00e8ge.
+    </p>
+  `,
+  atouts: [
+    { icon: '\ud83c\udf04', text: 'Vue d\u00e9gag\u00e9e sur le Pic Saint Loup' },
+    { icon: '\ud83c\udfca', text: 'Piscine, terrasse et jardin privatifs' },
+    { icon: '\ud83c\udd7f\ufe0f', text: '4 stationnements + garage 27 m\u00b2' },
+    { icon: '\u2728', text: 'Cuisine neuve (2022) et maison r\u00e9nov\u00e9e' },
+    { icon: '\ud83d\ude8a', text: 'Tram, commerces et \u00e9coles \u00e0 5 min \u00e0 pied' },
+  ],
+  characteristics: [
+    { icon: '\ud83c\udfe0', label: 'Type de bien',               value: 'Maison mitoyenne traversante' },
+    { icon: '\ud83d\udcd0', label: 'Surface habitable',           value: '89,5 m\u00b2' },
+    { icon: '\ud83c\udf3f', label: 'Surface terrain',             value: '341 m\u00b2' },
+    { icon: '\ud83d\udeaa', label: 'Pi\u00e8ces',                 value: '4' },
+    { icon: '\ud83d\udecc', label: 'Chambres',                   value: '3' },
+    { icon: '\ud83c\udfca', label: 'Piscine',                    value: 'Semi-enterr\u00e9e' },
+    { icon: '\ud83c\udf04', label: 'Vue',                        value: 'Vue imprenable',          highlight: true },
+    { icon: '\ud83e\uddad', label: 'Exposition',                  value: 'Double orientation (traversante)' },
+    { icon: '\ud83d\ude97', label: 'Garage',                      value: '27 m\u00b2' },
+    { icon: '\ud83c\udd7f\ufe0f',  label: 'Parking ext\u00e9rieur', value: '4 places',            highlight: true },
+    { icon: '\ud83d\udebf', label: 'Salle d\u2019eau',            value: 'Douche italienne XL, double vasque, WC' },
+    { icon: '\ud83d\udd25', label: 'Chauffage',                   value: 'Pompe \u00e0 chaleur air/air + \u00e9lectrique' },
+    { icon: '\u2744\ufe0f',  label: 'Climatisation',              value: 'R\u00e9versible',        highlight: true },
+    { icon: '\ud83d\udca7', label: 'Eau chaude',                  value: 'Ballon \u00e9lectrique' },
+    { icon: '\ud83e\ude9f', label: 'Vitrage',                     value: 'Double vitrage PVC' },
+    { icon: '\ud83c\udfe1', label: 'Volets',                      value: '\u00c9lectriques, commande centralis\u00e9e' },
+    { icon: '\ud83c\udf33', label: 'Jardin',                      value: 'Oui \u2014 cl\u00f4tur\u00e9' },
+    { icon: '\ud83d\udcc5', label: 'Ann\u00e9e de construction',   value: '1972' },
+    { icon: '\ud83e\uddf1', label: 'Isolation',                   value: 'ITE fa\u00e7ade nord + toiture (2018)' },
+  ],
+  dpeClass: 'C',
+  dpeValue: 116,
+  gesClass: 'A',
+  gesValue: 4,
+  energyCostMin: 1010,
+  energyCostMax: 1400,
+  energyCostYear: 2023,
+  mapLat: 43.657811,
+  mapLng: 3.913891,
+  mapRadius: 200,
+  mapZoom: 15,
+  mapNeighborhood: 'Quartier Bel Air',
+  mapCity: 'Jacou (34830)',
+};
+
+/* ---------------------------------------------------------------- */
+
+const logEl = document.getElementById('log');
+function log(msg, cls = '') {
+  const p = document.createElement('p');
+  p.className = cls;
+  p.textContent = msg;
+  logEl.appendChild(p);
+}
+
+document.getElementById('btn-seed').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-seed');
+  btn.disabled = true;
+  logEl.innerHTML = '';
+  log('Démarrage du seed…');
+
+  try {
+    /* 1. Bien principal */
+    await setDoc(doc(db, 'config', 'listing'), LISTING);
+    log('✓ config/listing créé', 'ok');
+
+    /* 2. Biens de recherche */
+    const col = collection(db, 'properties');
+    for (const p of PROPERTIES) {
+      await addDoc(col, p);
+      log(`✓ ${p.label || p.address}`, 'ok');
+    }
+
+    log('');
+    log('✅ Seed terminé ! Vérifiez dans Firebase Console.', 'ok');
+    log('⚠️ N\'oubliez pas de remettre les règles Firestore à : allow write: false', 'err');
+  } catch (e) {
+    log(`❌ Erreur : ${e.message}`, 'err');
+    log('Vérifiez que les règles Firestore autorisent les écritures.', 'err');
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
