@@ -145,14 +145,10 @@
         <!-- ── SECTION 1 : En-tête annonce ── -->
         <section class="pb-7 border-b border-gray-200">
 
-          <!-- Badge + localisation -->
-          <div class="flex flex-wrap items-center gap-2 mb-4 mt-1">
-            <span class="inline-flex items-center gap-1.5 bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
-              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-              </svg>
-              Vente entre particuliers
-            </span>
+          <!-- Mention particulier -->
+          <div class="mb-4 mt-1">
+            <p class="text-xl font-bold text-gray-800">🤝 Vente de particulier à particulier</p>
+            <p class="text-sm text-gray-500 mt-0.5">Sans agence &mdash; sans frais d'intermédiaire</p>
           </div>
 
           <!-- Titre -->
@@ -176,7 +172,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
               </svg>
-              89,5 m²
+              90 m²
             </span>
             <span class="chip">🌿&nbsp; Terrain 341&nbsp;m²</span>
           </div>
@@ -197,7 +193,20 @@
         </section>
 
 
-        <!-- ── SECTION 2b : Atouts ── -->
+        <!-- ── SECTION 2b : Pourquoi on vend ── -->
+        <section class="py-7 border-b border-gray-200">
+          <div class="flex items-start gap-4 bg-amber-50 border border-amber-200 rounded-2xl px-6 py-5">
+            <span class="text-3xl flex-shrink-0 mt-0.5">💬</span>
+            <div>
+              <h2 class="text-base font-bold text-amber-900 mb-1">Pourquoi on vend</h2>
+              <p id="pourquoi-vend" class="text-sm text-amber-800 leading-relaxed">
+                <!-- Injecté par app.js -->
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── SECTION 2c : Atouts ── -->
         <section class="py-7 border-b border-gray-200">
           <h2 class="text-xl font-bold text-gray-900 mb-4">Ses atouts</h2>
           <ul id="atouts-list" class="space-y-3"></ul>
@@ -302,7 +311,7 @@
             <div class="px-6 pt-4 pb-2">
               <div class="grid grid-cols-3 divide-x divide-gray-100 text-center mb-4">
                 <div class="px-2">
-                  <div class="text-lg font-bold text-gray-900">89,5</div>
+                  <div class="text-lg font-bold text-gray-900">90</div>
                   <div class="text-xs text-gray-500">m² hab.</div>
                 </div>
                 <div class="px-2">

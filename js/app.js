@@ -47,7 +47,7 @@ const CONFIG = {
 
   /* --- Prix (injecté via JS pour éviter le scraping) --- */
   price: '419\u202f000\u00a0€',
-  pricePerSqm: '4\u202f681\u00a0€/m²',
+  pricePerSqm: '4\u202f656\u00a0€/m²',
 
   /* --- Contact (encodé en base64 pour éviter le scraping)
      Pour encoder : btoa("votre texte") dans la console du navigateur
@@ -56,32 +56,27 @@ const CONFIG = {
      emailEncoded = btoa("contact@example.com")         */
   phoneEncoded: 'MDYgMjEgMDkgOTAgMTA=',
   emailEncoded: 'amVyb21lQGF2b3VzdGluLmNvbQ==',
-  ownerName: 'Le propriétaire',
+  ownerName: 'Jérôme',
+  ownerPhoto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1nYRg2hg8D6tjIEWHlMUehqhWE7iTHFwB5g&s',
 
   /* --- Description longue --- */
   description: `
     <p class="mb-4">
-      Sur les hauteurs de Jacou, dans le quartier recherché de Bel Air, cette maison
-      traversante a de quoi séduire&nbsp;: une vue dégagée sur le Pic Saint Loup depuis
-      la terrasse, le jardin et la piscine. Double orientation et lumière généreuse toute la journée : ici, on se sent chez soi.
+      On habite cette maison depuis plusieurs années et on l'a adorée. Sur les hauteurs de Jacou, dans le quartier Bel Air, elle est traversante avec une double orientation et une lumière généreuse toute la journée. Ce qu'on apprécie le plus : la vue dégagée sur le Pic Saint Loup, qu'on a depuis la terrasse, le jardin et la piscine — un vrai bonheur au quotidien.
     </p>
     <p class="mb-4">
-      Au rez-de-chaussée, un espace séjour-salon et cuisine semi-ouverte de 36&nbsp;m², traversant et baigné de lumière. La cuisine a été entièrement refaite en 2022.
-      Depuis la cuisine, on accède directement à la terrasse et au jardin côté nord.
-      WC séparé au rez-de-chaussée.
+      Au rez-de-chaussée, le séjour-salon et la cuisine semi-ouverte font 36&nbsp;m² baignés de lumière. On a entièrement refait la cuisine en 2022 — on en est très contents. Depuis la cuisine, on accède directement à la terrasse et au jardin côté nord. WC séparé au rez-de-chaussée.
     </p>
     <p class="mb-4">
-      À l'étage, trois chambres de 11 à 12&nbsp;m² — dont deux côté nord avec vue
-      sur le Pic — et une salle d'eau soignée&nbsp;: douche italienne XL, double vasque, WC. L'ensemble de la maison a été rénové ces dernières années.
+      À l'étage, trois chambres de 11 à 12&nbsp;m² — dont deux côté nord avec vue sur le Pic — et une belle salle d'eau&nbsp;: douche italienne XL, double vasque, WC. L'ensemble de la maison a été rénové progressivement ces dernières années.
     </p>
     <p>
-      Côté extérieurs, la maison se vit des deux côtés. Au nord&nbsp;: terrasse avec
-      pergola et barbecue, jardin paysager et piscine semi-enterrée, face au Pic
-      Saint Loup. Au sud&nbsp;: cour fermée avec préau et 3 places de parking. En
-      contrebas, un garage de 27&nbsp;m² avec accès indépendant complète ce bien. Située dans Jacou, commune dynamique aux portes de la garrigue, la maison est à 3 minutes à pied des commerces, 5 minutes du tramway et des écoles, et un quart d'heure du collège.
+      La maison se vit vraiment des deux côtés. Au nord&nbsp;: terrasse avec pergola et barbecue, jardin paysager et piscine semi-enterrée, face au Pic Saint Loup. Au sud : cour fermée avec préau et 3 places de parking. En contrebas, un garage de 27&nbsp;m² avec accès indépendant — on l'utilise comme atelier. Jacou est une commune très agréable : 3 minutes à pied des commerces, 5 minutes du tramway et des écoles, et un quart d'heure du collège.
     </p>
   `,
 
+  /* --- Pourquoi on vend --- */
+  pourquoiOnVend: `Notre famille s'agrandit et on a besoin de plus d'espace. On a été vraiment heureux dans cette maison — on espère qu'elle le sera autant pour ses prochains habitants.`,
   /* --- Atouts --- */
   atouts: [
     { icon: '🌄', text: 'Vue dégagée sur le Pic Saint Loup' },
@@ -94,7 +89,7 @@ const CONFIG = {
   /* --- Caractéristiques --- */
   characteristics: [
     { icon: '🏠', label: 'Type de bien',               value: 'Maison mitoyenne traversante' },
-    { icon: '📐', label: 'Surface habitable',           value: '89,5 m²' },
+    { icon: '📐', label: 'Surface habitable',           value: '90 m²' },
     { icon: '🌿', label: 'Surface terrain',             value: '341 m²' },
     { icon: '🚪', label: 'Pièces',                      value: '4' },
     { icon: '🛏', label: 'Chambres',                    value: '3' },
@@ -292,6 +287,10 @@ function injectContent() {
   /* Description */
   document.getElementById('description-text').innerHTML = CONFIG.description;
 
+  /* Pourquoi on vend */
+  const pourquoiEl = document.getElementById('pourquoi-vend');
+  if (pourquoiEl && CONFIG.pourquoiOnVend) pourquoiEl.textContent = CONFIG.pourquoiOnVend;
+
   /* Bouton "Lire la suite" */
   const descEl  = document.getElementById('description-text');
   const fullH   = descEl.scrollHeight;
@@ -440,7 +439,10 @@ function buildContactCard(container) {
   container.innerHTML = `
     <div class="contact-card space-y-4">
       <div class="flex items-center gap-3 mb-2">
-        <div class="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center text-2xl flex-shrink-0">👤</div>
+        ${CONFIG.ownerPhoto
+          ? `<img src="${CONFIG.ownerPhoto}" alt="${CONFIG.ownerName}" class="w-12 h-12 rounded-full object-cover flex-shrink-0">`
+          : `<div class="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center text-2xl flex-shrink-0">👤</div>`
+        }
         <div>
           <div class="font-semibold text-gray-800">${CONFIG.ownerName}</div>
           <div class="text-xs text-gray-500">Particulier vendeur</div>

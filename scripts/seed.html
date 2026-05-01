@@ -44,12 +44,13 @@
     <li><code>properties/*</code> — 8 biens de recherche</li>
   </ul>
 
-  <button id="btn-seed">Peupler Firestore</button>
+  <button id="btn-seed">🔴 Init complet (écrase tout)</button>
+  <button id="btn-patch" style="background:#16a34a;margin-left:8px">🟢 Patch (champs sélectionnés seulement)</button>
   <div id="log"></div>
 
 <script type="module">
 import { db } from '../js/firebase-config.js';
-import { doc, setDoc, collection, addDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { doc, setDoc, updateDoc, collection, addDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 import { PROPERTIES } from '../js/research-data.js';
 
 /* ----------------------------------------------------------------
@@ -62,7 +63,8 @@ const LISTING = {
   pricePerSqm: '4\u202f681\u00a0\u20ac/m\u00b2',
   phoneEncoded: 'MDYgMjEgMDkgOTAgMTA=',
   emailEncoded: 'amVyb21lQGF2b3VzdGluLmNvbQ==',
-  ownerName: 'Le propri\u00e9taire',
+  ownerName: 'Jérôme',
+  pourquoiOnVend: `Notre famille s'agrandit et on a besoin de plus d'espace. On a été vraiment heureux dans cette maison — on espère qu'elle le sera autant pour ses prochains habitants.`,
   photos: [
     './img/1.jpg','./img/2.jpg','./img/3.jpg','./img/4.jpg',
     './img/5.jpg','./img/6.jpg','./img/7.jpg','./img/8.jpg',
@@ -101,7 +103,7 @@ const LISTING = {
   ],
   characteristics: [
     { icon: '\ud83c\udfe0', label: 'Type de bien',               value: 'Maison mitoyenne traversante' },
-    { icon: '\ud83d\udcd0', label: 'Surface habitable',           value: '89,5 m\u00b2' },
+    { icon: '\ud83d\udcd0', label: 'Surface habitable',           value: '90 m²' },
     { icon: '\ud83c\udf3f', label: 'Surface terrain',             value: '341 m\u00b2' },
     { icon: '\ud83d\udeaa', label: 'Pi\u00e8ces',                 value: '4' },
     { icon: '\ud83d\udecc', label: 'Chambres',                   value: '3' },
@@ -169,6 +171,30 @@ document.getElementById('btn-seed').addEventListener('click', async () => {
   } catch (e) {
     log(`❌ Erreur : ${e.message}`, 'err');
     log('Vérifiez que les règles Firestore autorisent les écritures.', 'err');
+    btn.disabled = false;
+  }
+});
+
+/* ── Patch partiel : updateDoc sur les seuls champs modifiés ── */
+const PATCH_FIELDS = {
+  ownerName:      LISTING.ownerName,
+  pourquoiOnVend: LISTING.pourquoiOnVend,
+  description:    LISTING.description,
+};
+
+document.getElementById('btn-patch').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-patch');
+  btn.disabled = true;
+  logEl.innerHTML = '';
+  log('Patch partiel en cours…');
+  try {
+    await updateDoc(doc(db, 'config', 'listing'), PATCH_FIELDS);
+    log('✓ config/listing mis à jour (ownerName, pourquoiOnVend, description)', 'ok');
+    log('');
+    log('✅ Patch terminé ! Les autres champs sont intacts.', 'ok');
+    log("⚠️ N'oubliez pas de remettre les règles Firestore à : allow write: false", 'err');
+  } catch (e) {
+    log(`❌ Erreur : ${e.message}`, 'err');
     btn.disabled = false;
   }
 });
