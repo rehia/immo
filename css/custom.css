@@ -714,6 +714,71 @@
 .rp-date-confirm { background: #ea580c; color: #fff; }
 .rp-date-confirm:hover { background: #c2410c; }
 
+/* ---- Toggle Maisons / Terrains ---- */
+.sp-entity-toggle {
+  display: flex;
+  gap: 8px;
+  padding: 10px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+  background: #f8fafc;
+}
+
+.entity-chip {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  color: #64748b;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.entity-chip:hover { background: #f1f5f9; color: #1e293b; }
+.entity-chip.active { background: #1e3a5f; color: #fff; border-color: #1e3a5f; }
+
+/* Champs terrain : même espacement que les autres groupes */
+#pf-terrain-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ---- Marqueur terrain carré (divIcon Leaflet) ---- */
+.terrain-marker-icon {
+  background: none !important;
+  border: none !important;
+}
+
+/* ---- Point carré dans la liste (terrains) ---- */
+.pl-dot-square {
+  border-radius: 2px !important;
+}
+
+/* ---- Infos terrain dans le popup ---- */
+.rp-terrain-info {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e3a5f;
+  margin: 0 0 4px;
+  line-height: 1.5;
+}
+
+.rp-viabilise {
+  font-size: 12px;
+  color: #374151;
+  margin: 0 0 6px;
+}
+
+/* ---- Séparateur dans la légende ---- */
+.rl-separator {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 5px 0;
+}
+
 /* ---- Légende ---- */
 .research-legend {
   background: rgba(255,255,255,0.92);

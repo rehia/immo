@@ -19,6 +19,33 @@
    image : URL d'une photo (optionnel)
    ===================================================== */
 
+export const FALLBACK_TERRAINS = [
+  {
+    address: 'Jacou (34830)',
+    lat: 43.6610,
+    lng: 3.9120,
+    urls: [],
+    status: 'to-discuss',
+    label: 'Terrain 450m² viabilisé',
+    approximate: true,
+    surface: 450,
+    price: 195000,
+    viabilise: true,
+  },
+  {
+    address: 'Teyran (34820)',
+    lat: 43.6899,
+    lng: 3.9261,
+    urls: [],
+    status: 'to-visit',
+    label: 'Terrain 600m² non viabilisé',
+    approximate: true,
+    surface: 600,
+    price: 170000,
+    viabilise: false,
+  },
+];
+
 export const SITE_NAMES = {
   'leboncoin.fr': 'Le Bon Coin',
   'seloger.com': 'SeLoger',

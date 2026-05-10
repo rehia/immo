@@ -70,6 +70,12 @@
       Gérer les biens via Firebase Console.
     </p>
 
+    <!-- Toggle Maisons / Terrains -->
+    <div id="entity-toggle" class="sp-entity-toggle">
+      <button class="entity-chip active" data-entity="houses">Maisons</button>
+      <button class="entity-chip" data-entity="terrains">Terrains</button>
+    </div>
+
     <!-- Filtres -->
     <div id="filter-bar" class="sp-filters">
       <button class="filter-chip active" data-filter="all">Tous</button>
@@ -118,8 +124,27 @@
           <input class="pf-input" type="text" id="pf-label" name="label" placeholder="ex: 5p 145m² 650 000€" required>
         </div>
         <div class="pf-group">
-          <label class="pf-label" for="pf-address">Adresse <span class="pf-req">*</span></label>
+          <label class="pf-label" for="pf-address" id="pf-address-label">Adresse <span class="pf-req">*</span></label>
           <input class="pf-input" type="text" id="pf-address" name="address" placeholder="Rue, Ville (34xxx)" required>
+        </div>
+        <!-- Champs spécifiques terrain (masqués par défaut) -->
+        <div id="pf-terrain-fields" style="display:none">
+          <div class="pf-row">
+            <div class="pf-group">
+              <label class="pf-label" for="pf-surface">Surface (m²)</label>
+              <input class="pf-input" type="number" id="pf-surface" name="surface" placeholder="ex: 450" min="0">
+            </div>
+            <div class="pf-group">
+              <label class="pf-label" for="pf-price">Prix (€)</label>
+              <input class="pf-input" type="number" id="pf-price" name="price" placeholder="ex: 180000" min="0">
+            </div>
+          </div>
+          <div class="pf-group">
+            <label class="pf-checkbox-label">
+              <input type="checkbox" id="pf-viabilise" name="viabilise">
+              Terrain viabilisé
+            </label>
+          </div>
         </div>
         <div class="pf-row">
           <div class="pf-group">
