@@ -663,6 +663,16 @@
   user-select: none;
 }
 
+.rp-address-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 600;
+}
+.rp-address-link:hover { text-decoration: underline; }
+
 .rp-approx {
   font-size: 11px;
   color: #94a3b8;
