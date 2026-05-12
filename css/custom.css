@@ -673,6 +673,33 @@
 }
 .rp-address-link:hover { text-decoration: underline; }
 
+/* ---- Notes dépliables dans le popup ---- */
+.rp-notes-details {
+  margin: 6px 0;
+  font-size: 12px;
+}
+
+.rp-notes-summary {
+  cursor: pointer;
+  color: #6366f1;
+  font-weight: 600;
+  font-size: 12px;
+  user-select: none;
+}
+.rp-notes-summary:hover { text-decoration: underline; }
+
+.rp-notes-content {
+  margin: 4px 0 0;
+  padding: 6px 8px;
+  background: #f8fafc;
+  border-radius: 6px;
+  color: #374151;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .rp-approx {
   font-size: 11px;
   color: #94a3b8;
@@ -978,6 +1005,13 @@
 .pf-input:focus { border-color: #2563eb; background: #fff; }
 
 .pf-select { appearance: auto; }
+
+.pf-textarea {
+  resize: vertical;
+  min-height: 60px;
+  font-family: inherit;
+  line-height: 1.5;
+}
 
 .pf-row { display: flex; gap: 12px; }
 .pf-row .pf-group { flex: 1; }

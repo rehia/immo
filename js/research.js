@@ -129,6 +129,13 @@ function buildPopup(p, idx, entityType) {
     terrainInfo = info + viab;
   }
 
+  const notesBlock = p.notes
+    ? `<details class="rp-notes-details">
+         <summary class="rp-notes-summary">Notes</summary>
+         <p class="rp-notes-content">${p.notes.replace(/</g, '&lt;').replace(/\n/g, '<br>')}</p>
+       </details>`
+    : '';
+
   let statusSection;
   if (isAdmin) {
     const buttons = Object.entries(STATUS_CONFIG).map(([key, scfg]) => {
@@ -162,6 +169,7 @@ function buildPopup(p, idx, entityType) {
       ${p.label && p.address ? `<p class="rp-address"><a class="rp-address-link" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.address)}" target="_blank" rel="noopener noreferrer"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.address}</a></p>` : ''}
       ${terrainInfo}
       ${approxNote}
+      ${notesBlock}
       ${statusSection}
       ${links}
       ${adminBar}
@@ -628,6 +636,7 @@ function openModal(idx = null, latlng = null) {
     formEl.elements.status.value        = p.status || 'to-visit';
     formEl.elements.visitDate.value     = p.visitDate || '';
     formEl.elements.approximate.checked = !!p.approximate;
+    formEl.elements.notes.value          = p.notes || '';
     getUrls(p).forEach(e => addUrlInput(e.url));
 
     if (isTerrain) {
@@ -712,6 +721,7 @@ formEl.addEventListener('submit', async e => {
     status:  els.status.value,
     urls:    collectUrls(),
   };
+  payload.notes = els.notes.value.trim();
   if (els.image.value.trim())    payload.image       = els.image.value.trim();
   if (els.approximate.checked)   payload.approximate = true;
   if (els.status.value === 'planned' && els.visitDate.value) {
