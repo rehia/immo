@@ -893,9 +893,13 @@
   margin-top: 8px;
   padding-top: 8px;
   border-top: 1px solid #f1f5f9;
+  display: flex;
+  gap: 6px;
 }
 
-.rp-edit-btn {
+.rp-edit-btn,
+.rp-reloc-btn {
+  flex: 1;
   font-size: 12px;
   font-weight: 600;
   color: #64748b;
@@ -904,11 +908,11 @@
   border-radius: 6px;
   padding: 5px 10px;
   cursor: pointer;
-  width: 100%;
   text-align: center;
   transition: background 0.12s, color 0.12s;
 }
-.rp-edit-btn:hover { background: #e2e8f0; color: #1e293b; }
+.rp-edit-btn:hover,
+.rp-reloc-btn:hover { background: #e2e8f0; color: #1e293b; }
 
 /* ---- Modale (overlay + boîte) ---- */
 .prop-modal {

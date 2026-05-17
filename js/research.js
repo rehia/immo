@@ -159,7 +159,10 @@ function buildPopup(p, idx, entityType) {
   }
 
   const adminBar = isAdmin
-    ? `<div class="rp-admin-bar"><button class="rp-edit-btn" data-idx="${idx}" data-entity="${entityType}">✏️ Modifier</button></div>`
+    ? `<div class="rp-admin-bar">
+         <button class="rp-edit-btn" data-idx="${idx}" data-entity="${entityType}">✏️ Modifier</button>
+         <button class="rp-reloc-btn" data-idx="${idx}" data-entity="${entityType}">📍 Relocaliser</button>
+       </div>`
     : '';
 
   return `
@@ -327,6 +330,18 @@ function attachPopupListeners(popupEl) {
         /* Assure que le bon type est actif avant d'ouvrir la modale */
         if (entity !== activeEntity) switchEntity(entity);
         openModal(parseInt(editBtn.dataset.idx));
+      });
+    }
+
+    const relocBtn = popupEl.querySelector('.rp-reloc-btn');
+    if (relocBtn) {
+      relocBtn.addEventListener('click', () => {
+        relocatingIdx    = parseInt(relocBtn.dataset.idx);
+        relocatingEntity = relocBtn.dataset.entity || activeEntity;
+        map.closePopup();
+        map.getContainer().classList.add('placement-mode');
+        fab.classList.add('placement-active');
+        fab.title = 'Cliquer sur la carte pour relocaliser…';
       });
     }
   }
@@ -579,8 +594,10 @@ const urlListEl  = document.getElementById('pf-url-list');
 const deleteBtn  = document.getElementById('pf-delete');
 const fab        = document.getElementById('admin-fab');
 
-let editingIdx    = null;
-let placementMode = false;
+let editingIdx     = null;
+let placementMode  = false;
+let relocatingIdx    = null;
+let relocatingEntity = null;
 
 /* ---- Affiche/cache le champ date selon le statut ---- */
 function toggleVisitDateField() {
@@ -723,7 +740,7 @@ formEl.addEventListener('submit', async e => {
   };
   payload.notes = els.notes.value.trim();
   if (els.image.value.trim())    payload.image       = els.image.value.trim();
-  if (els.approximate.checked)   payload.approximate = true;
+  payload.approximate = !!els.approximate.checked;
   if (els.status.value === 'planned' && els.visitDate.value) {
     payload.visitDate = els.visitDate.value;
   } else {
@@ -813,7 +830,36 @@ fab.addEventListener('click', () => {
   fab.title = 'Cliquer sur la carte pour placer…';
 });
 
-map.on('click', e => {
+map.on('click', async e => {
+  if (relocatingIdx !== null) {
+    const idx    = relocatingIdx;
+    const entity = relocatingEntity;
+    relocatingIdx    = null;
+    relocatingEntity = null;
+    map.getContainer().classList.remove('placement-mode');
+    fab.classList.remove('placement-active');
+    fab.title = activeEntity === 'terrains' ? 'Ajouter un terrain' : 'Ajouter un bien';
+
+    const data    = entity === 'terrains' ? TERRAINS : HOUSES;
+    const markers = entity === 'terrains' ? terrainMarkers : houseMarkers;
+    const colName = entity === 'terrains' ? 'terrains' : 'properties';
+    const p = data[idx];
+    if (!p) return;
+
+    p.lat = e.latlng.lat;
+    p.lng = e.latlng.lng;
+
+    if (p._id) {
+      try { await updateDoc(doc(db, colName, p._id), { lat: p.lat, lng: p.lng }); }
+      catch (_) {}
+    }
+
+    map.removeLayer(markers[idx]);
+    markers[idx] = buildMarker(p, idx, entity);
+    applyFilter(activeFilter);
+    return;
+  }
+
   if (!placementMode) return;
   placementMode = false;
   map.getContainer().classList.remove('placement-mode');
